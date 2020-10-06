@@ -3,6 +3,7 @@ const express = require('express')
 const mockAPIResponse = require('./mockAPI.js')
 var bodyParser = require('body-parser')
 var cors = require('cors')
+let projectData = {}; //Create empty JS object to act as endpoint for weather data
 
 var json = {
     'title': 'test json response',
@@ -21,17 +22,30 @@ app.use(bodyParser.urlencoded({
 
 app.use(express.static('dist'))
 
-console.log(JSON.stringify(mockAPIResponse))
+// designates what port the app will listen to for incoming requests
+app.listen(8081, function () {
+    console.log('Example app listening on port 8081!')
+})
 
-app.get('/', function (req, res) {
+// console.log(JSON.stringify(mockAPIResponse))
+
+//GET routes
+app.get('/all', function (req, res) {
+    console.log("Get request received")
     res.sendFile('dist/index.html')
+    res.send(projectData);
+    console.log(projectData);
 })
 
 app.get('/test', function (req, res) {
     res.json(mockAPIResponse);
 })
 
-// designates what port the app will listen to for incoming requests
-app.listen(8081, function () {
-    console.log('Example app listening on port 8081!')
-})
+//POST route
+app.post('/addWeather', addWeather);
+
+function addWeather(req, res) {
+    projectData.temperature = req.body.temperature;
+    res.end();
+    console.log(projectData);
+}

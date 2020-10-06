@@ -4,6 +4,9 @@ function handleSubmit(event) {
     // check what text was put into the form field
     let formText = document.getElementById('name').value
 
+    Client.testFunction();
+    console.log("::: Running test function :::")
+
     Client.checkForName(formText)
 
     console.log("::: Form Submitted :::")
@@ -14,6 +17,7 @@ function handleSubmit(event) {
     .then(function(data) {
         document.getElementById('results').innerHTML = data.message
     })
+
 }
 
 export { handleSubmit }
